@@ -38,13 +38,6 @@ const getCommand = (key: string, instruction: string) => {
     return m.groups.cmd.split(' ').map((s) => s.trim())
 }
 
-// const instruction = `
-// key=sbox-public-api,cmd=docker build -t sbox-calculate -f ./docker/Dockerfile.sbox-calculate ./bin/
-// key=sbox-calculate,cmd=docker build -t $sbox-calculate -f ./docker/Dockerfile.sbox-calculate ./bin/
-// key=default,cmd=docker build -t sbox-inlet-ping -f ./docker/Dockerfile.default ./bin/ --build-arg "FILE=sbox-inlet-ping"
-// `
-// const key = "sbox-inlet-ping"
-
 try {
     const key = getInput("key");
     const instruction = getInput("instruction");
