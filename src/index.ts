@@ -6,7 +6,10 @@ const octokit = new Octokit()
 
 try {
     const instruction = getInput("instruction");
-    console.log('instruction', instruction)
+    const cases = instruction.split("\\r?\\n")
+    cases.forEach((c, i) => {
+        console.log(`CASE: ${i}: ${c}`)
+    })
 } catch (e) {
     setFailed(e.message);
 }
