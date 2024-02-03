@@ -1,9 +1,9 @@
 import { getInput, setFailed } from '@actions/core';
 import { spawn } from 'child_process'
 
-const execute = (cmd) => {
+const execute = (cmd: string, ...args: Array<string>) => {
     return new Promise((resolve) => {
-        const child = spawn(cmd)
+        const child = spawn(cmd, args)
         child.stdout.setEncoding('utf8')
         child.stdout.on('data', (chunk) => {
             console.log(chunk)
@@ -23,12 +23,12 @@ const execute = (cmd) => {
 const fmtRe = (key: string) => RegExp(`(?:\n*key=${key},cmd=)(?<cmd>(?<=cmd=).*)(?:\n*)`, 'm')
 
 try {
-    // const key = getInput("key");
-    // const instruction = getInput("instruction");
-    // const m = instruction.match(fmtRe(key))
-    // if (!m) throw new Error(`Could not interpret cmd for key: ${key}`)
-
-    await execute("echo foo")
+    const key = getInput("key");
+    const instruction = getInput("instruction");
+    const m = instruction.match(fmtRe(key))
+    if (!m) throw new Error(`Could not interpret cmd for key: ${key}`)
+    const [cmd, ...args] = m.groups.cmd.split(' ').map((s) => s.trim())
+    await execute(cmd, ...args)
 
     //instruction
     //.split("\n")

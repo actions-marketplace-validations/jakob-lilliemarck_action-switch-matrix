@@ -24615,9 +24615,9 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 /* harmony import */ var child_process__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(child_process__WEBPACK_IMPORTED_MODULE_1__);
 
 
-const execute = (cmd) => {
+const execute = (cmd, ...args) => {
     return new Promise((resolve) => {
-        const child = (0,child_process__WEBPACK_IMPORTED_MODULE_1__.spawn)(cmd);
+        const child = (0,child_process__WEBPACK_IMPORTED_MODULE_1__.spawn)(cmd, args);
         child.stdout.setEncoding('utf8');
         child.stdout.on('data', (chunk) => {
             console.log(chunk);
@@ -24635,11 +24635,13 @@ const execute = (cmd) => {
 // const pattern = /^(?:key=)(?<key>(?<=key=)[^,]*)(?:,\s*cmd=)(?<cmd>(?<=cmd=).*)$/
 const fmtRe = (key) => RegExp(`(?:\n*key=${key},cmd=)(?<cmd>(?<=cmd=).*)(?:\n*)`, 'm');
 try {
-    // const key = getInput("key");
-    // const instruction = getInput("instruction");
-    // const m = instruction.match(fmtRe(key))
-    // if (!m) throw new Error(`Could not interpret cmd for key: ${key}`)
-    await execute("echo foo");
+    const key = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("key");
+    const instruction = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("instruction");
+    const m = instruction.match(fmtRe(key));
+    if (!m)
+        throw new Error(`Could not interpret cmd for key: ${key}`);
+    const [cmd, ...args] = m.groups.cmd.split(' ').map((s) => s.trim());
+    await execute(cmd, ...args);
     //instruction
     //.split("\n")
     //.filter((s) => s)
