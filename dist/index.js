@@ -24616,6 +24616,8 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 
 
 const execute = (cmd, ...args) => {
+    console.info(`Executing command: "${cmd}"`);
+    console.info(`With arguments: ${args}`);
     return new Promise((resolve) => {
         const child = (0,child_process__WEBPACK_IMPORTED_MODULE_1__.spawn)(cmd, args);
         child.stdout.setEncoding('utf8');

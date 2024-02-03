@@ -2,6 +2,8 @@ import { getInput, setFailed } from '@actions/core';
 import { spawn } from 'child_process'
 
 const execute = (cmd: string, ...args: Array<string>) => {
+    console.info(`Executing command: "${cmd}"`)
+    console.info(`With arguments: ${args}`)
     return new Promise((resolve) => {
         const child = spawn(cmd, args)
         child.stdout.setEncoding('utf8')
