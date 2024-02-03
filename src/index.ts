@@ -26,7 +26,6 @@ const getCommand = (key: string, instruction: string) => {
         message: `Command not found for key: ${key}`,
         key,
     }
-    console.log(m.groups.cmd.split(' '))
     return m.groups.cmd.split(' ').map((s) => s.trim())
 }
 
@@ -39,6 +38,7 @@ try {
     try {
         s = getCommand(key, instruction)
     } catch (e) {
+        console.info(e.message)
         s = getCommand('default', instruction)
     }
 
