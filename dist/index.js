@@ -54823,11 +54823,22 @@ __nccwpck_require__.r(__webpack_exports__);
 const octokit = new _octokit_action__WEBPACK_IMPORTED_MODULE_1__.Octokit();
 try {
     const instruction = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("instruction");
-    console.log(instruction);
+    console.log('instruction', instruction);
 }
 catch (e) {
     (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(e.message);
 }
+//const red = "\x1b[31m"
+//const child = spawn('ls',)
+//child.stdout.setEncoding('utf8')
+//child.stdout.on('data', (chunk) => {
+//    console.log(chunk)
+//});
+//child.on('close', (code) => {
+//    if (code !== 0) {
+//        console.log(`child process exited with code ${code}`);
+//    }
+//});
 
 })();
 
