@@ -30,13 +30,6 @@ const getCommand = (key: string, instruction: string) => {
     return m.groups.cmd.split(' ').map((s) => s.trim())
 }
 
-//const key = 'foo'
-//const instruction = `
-//key=foo,cmd=echo FOO COMMAND
-//key=bar,cmd=echo BAR COMMAND
-//key=default,cmd=echo DEFAULT COMMAND
-//`
-
 try {
     const key = getInput("key");
     const instruction = getInput("instruction");
@@ -46,7 +39,6 @@ try {
     try {
         s = getCommand(key, instruction)
     } catch (e) {
-        console.info(e.message)
         s = getCommand('default', instruction)
     }
 

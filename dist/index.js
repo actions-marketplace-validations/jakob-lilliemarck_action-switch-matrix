@@ -24643,12 +24643,6 @@ const getCommand = (key, instruction) => {
     console.log(m.groups.cmd.split(' '));
     return m.groups.cmd.split(' ').map((s) => s.trim());
 };
-//const key = 'foo'
-//const instruction = `
-//key=foo,cmd=echo FOO COMMAND
-//key=bar,cmd=echo BAR COMMAND
-//key=default,cmd=echo DEFAULT COMMAND
-//`
 try {
     const key = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("key");
     const instruction = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("instruction");
@@ -24657,7 +24651,6 @@ try {
         s = getCommand(key, instruction);
     }
     catch (e) {
-        console.info(e.message);
         s = getCommand('default', instruction);
     }
     const [cmd, ...args] = s;
