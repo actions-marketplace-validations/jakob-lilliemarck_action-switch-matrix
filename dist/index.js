@@ -26619,7 +26619,7 @@ const execute = (cmd) => {
             throw new Error(`Command returned non-zero exit code: ${code}`);
     });
 };
-const pattern = /^(?:key=)(?<key>(?<=key=)[^,]*)(?:,\s*cmd=)(?<cmd>(?<=cmd=).*)$/;
+// const pattern = /^(?:key=)(?<key>(?<=key=)[^,]*)(?:,\s*cmd=)(?<cmd>(?<=cmd=).*)$/
 const fmtRe = (key) => RegExp(`(?:\n*key=${key},cmd=)(?<cmd>(?<=cmd=).*)(?:\n*)`, 'm');
 try {
     const key = (0,core.getInput)("key");
@@ -26627,7 +26627,7 @@ try {
     const m = instruction.match(fmtRe(key));
     if (!m)
         throw new Error(`Could not interpret cmd for key: ${key}`);
-    execute(m.groups.cmd);
+    execute("echo foo");
     //instruction
     //.split("\n")
     //.filter((s) => s)

@@ -12,7 +12,7 @@ const execute = (cmd) => {
     })
 }
 
-const pattern = /^(?:key=)(?<key>(?<=key=)[^,]*)(?:,\s*cmd=)(?<cmd>(?<=cmd=).*)$/
+// const pattern = /^(?:key=)(?<key>(?<=key=)[^,]*)(?:,\s*cmd=)(?<cmd>(?<=cmd=).*)$/
 
 const fmtRe = (key: string) => RegExp(`(?:\n*key=${key},cmd=)(?<cmd>(?<=cmd=).*)(?:\n*)`, 'm')
 
@@ -25,7 +25,7 @@ try {
 
     if (!m) throw new Error(`Could not interpret cmd for key: ${key}`)
 
-    execute(m.groups.cmd)
+    execute("echo foo")
 
     //instruction
     //.split("\n")
