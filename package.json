@@ -1,7 +1,7 @@
 {
-  "name": "action-build-matrix",
+  "name": "switch-matrix",
   "version": "1.0.0",
-  "description": "Conditionally run commands in a GitHub workflow job matrix",
+  "description": "Run heterogeneous commands in a GitHub workflow job matrix",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {

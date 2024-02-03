@@ -1,5 +1,5 @@
-name: "Build matrix"
-description: "Conditionally run commands in a GitHub workflow job matrix"
+name: "Switch matrix"
+description: "Run heterogeneous commands in a GitHub workflow job matrix"
 author: Jakob Lilliemarck
 
 inputs:

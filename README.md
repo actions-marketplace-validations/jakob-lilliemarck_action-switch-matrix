@@ -1,8 +1,8 @@
-# action-build-matrix
-Reduce boilerplate and custom scripting while working with GitHub workflow matrices.
+# action-switch-matrix
+Run heterogeneous commands in a GitHub workflow job matrix.
 
 ```yml
-name: Example action-build-matrix
+name: Switch matrix example
 
 on: [push]
 
@@ -13,7 +13,7 @@ jobs:
       matrix:
         key: [foo, bar, baz]
     steps:   
-      - uses: jakob-lilliemarck/action-build-matrix@v1
+      - uses: jakob-lilliemarck/action-switch-matrix@v1
         with:
           key: ${{matrix.key}}
           instruction: |
