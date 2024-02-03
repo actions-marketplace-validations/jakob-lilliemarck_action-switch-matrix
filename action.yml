@@ -3,8 +3,16 @@ description: "Conditionally run commands in a GitHub workflow job matrix"
 author: Jakob Lilliemarck
 
 inputs:
+  key:
+    description: "The current key"
+    required: true
+
   instruction:
-    description: "key=[matrix.value],cmd=[command]"
+    description: |
+      Multiline string with a key, cmd pair on each line, like:
+        key=foo,cmd=echo foo
+        key=bar,cmd=echo bar
+    required: true
 
 runs:
   using: "node20"
