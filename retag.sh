@@ -11,8 +11,8 @@ fi
 # 2 MESSAGE
 ncc build src/index.ts
 git add .
-git push --delete origin $1
-git tag -d $1
+# git push --delete origin v2
+# git tag -d v2
 git commit -m "$2"
-git tag -a "$1" -m "$2"
+git tag -a v2 -m "$2"
 git push --follow-tags

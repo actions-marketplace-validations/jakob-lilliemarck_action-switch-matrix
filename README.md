@@ -1,4 +1,4 @@
-# action-switch-matrix
+# Switch matrix
 Run heterogeneous commands in a GitHub workflow job matrix.
 
 ```yml
@@ -17,7 +17,7 @@ jobs:
         with:
           key: ${{matrix.key}}
           instruction: |
-            key=foo,cmd=echo FOO
+            key=foo,cmd=echo ${{matrix.key}}
             key=bar,cmd=echo BAR
             key=default,cmd=echo DEFAULT
 ```
