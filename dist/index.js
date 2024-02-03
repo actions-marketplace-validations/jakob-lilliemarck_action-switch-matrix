@@ -24640,11 +24640,18 @@ const getCommand = (key, instruction) => {
             message: `Command not found for key: ${key}`,
             key,
         };
+    console.log(m.groups.cmd.split(' '));
     return m.groups.cmd.split(' ').map((s) => s.trim());
 };
+const key = 'foo';
+const instruction = `
+key=foo,cmd=echo FOO COMMAND
+key=bar,cmd=echo BAR COMMAND
+key=default,cmd=echo DEFAULT COMMAND
+`;
 try {
-    const key = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("key");
-    const instruction = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("instruction");
+    // const key = getInput("key");
+    // const instruction = getInput("instruction");
     let s;
     try {
         s = getCommand(key, instruction);
@@ -24653,7 +24660,7 @@ try {
         console.info(e.message);
         s = getCommand('default', instruction);
     }
-    const [cmd, args] = s;
+    const [cmd, ...args] = s;
     await execute(cmd, ...args);
 }
 catch (e) {

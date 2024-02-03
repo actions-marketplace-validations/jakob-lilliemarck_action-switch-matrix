@@ -26,13 +26,20 @@ const getCommand = (key: string, instruction: string) => {
         message: `Command not found for key: ${key}`,
         key,
     }
-
+    console.log(m.groups.cmd.split(' '))
     return m.groups.cmd.split(' ').map((s) => s.trim())
 }
 
+const key = 'foo'
+const instruction = `
+key=foo,cmd=echo FOO COMMAND
+key=bar,cmd=echo BAR COMMAND
+key=default,cmd=echo DEFAULT COMMAND
+`
 try {
-    const key = getInput("key");
-    const instruction = getInput("instruction");
+    // const key = getInput("key");
+    // const instruction = getInput("instruction");
+
 
     let s: Array<string>;
     try {
@@ -42,7 +49,7 @@ try {
         s = getCommand('default', instruction)
     }
 
-    const [cmd, args] = s
+    const [cmd, ...args] = s
     await execute(cmd, ...args)
 } catch (e) {
     setFailed(e.message);
