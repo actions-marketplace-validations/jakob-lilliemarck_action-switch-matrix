@@ -39,6 +39,7 @@ try {
         c = getCommand(key, instruction)
     } catch (e) {
         console.info(e.message)
+        console.info(`Attempting default command`)
         c = getCommand('default', instruction)
     }
 
