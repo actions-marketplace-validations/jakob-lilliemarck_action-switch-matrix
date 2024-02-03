@@ -24635,11 +24635,10 @@ const execute = (cmd) => {
 // const pattern = /^(?:key=)(?<key>(?<=key=)[^,]*)(?:,\s*cmd=)(?<cmd>(?<=cmd=).*)$/
 const fmtRe = (key) => RegExp(`(?:\n*key=${key},cmd=)(?<cmd>(?<=cmd=).*)(?:\n*)`, 'm');
 try {
-    const key = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("key");
-    const instruction = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("instruction");
-    const m = instruction.match(fmtRe(key));
-    if (!m)
-        throw new Error(`Could not interpret cmd for key: ${key}`);
+    // const key = getInput("key");
+    // const instruction = getInput("instruction");
+    // const m = instruction.match(fmtRe(key))
+    // if (!m) throw new Error(`Could not interpret cmd for key: ${key}`)
     await execute("echo foo");
     //instruction
     //.split("\n")

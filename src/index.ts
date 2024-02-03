@@ -23,13 +23,10 @@ const execute = (cmd) => {
 const fmtRe = (key: string) => RegExp(`(?:\n*key=${key},cmd=)(?<cmd>(?<=cmd=).*)(?:\n*)`, 'm')
 
 try {
-    const key = getInput("key");
-
-    const instruction = getInput("instruction");
-
-    const m = instruction.match(fmtRe(key))
-
-    if (!m) throw new Error(`Could not interpret cmd for key: ${key}`)
+    // const key = getInput("key");
+    // const instruction = getInput("instruction");
+    // const m = instruction.match(fmtRe(key))
+    // if (!m) throw new Error(`Could not interpret cmd for key: ${key}`)
 
     await execute("echo foo")
 
