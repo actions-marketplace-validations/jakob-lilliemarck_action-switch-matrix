@@ -24609,20 +24609,48 @@ exports["default"] = _default;
 /***/ ((module, __unused_webpack___webpack_exports__, __nccwpck_require__) => {
 
 __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(3562);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var child_process__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(2081);
-/* harmony import */ var child_process__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(child_process__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _lib__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(8819);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3562);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_1__);
 
 
-const execute = (cmd, ...args) => {
+try {
+    const key = (0,_actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput)("key");
+    const instruction = (0,_actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput)("instruction");
+    await (0,_lib__WEBPACK_IMPORTED_MODULE_0__/* .tryExec */ .zV)(key, instruction);
+}
+catch (e) {
+    (0,_actions_core__WEBPACK_IMPORTED_MODULE_1__.setFailed)(e.message);
+}
+
+__webpack_async_result__();
+} catch(e) { __webpack_async_result__(e); } }, 1);
+
+/***/ }),
+
+/***/ 8819:
+/***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
+
+
+// EXPORTS
+__nccwpck_require__.d(__webpack_exports__, {
+  "zV": () => (/* binding */ tryExec)
+});
+
+// UNUSED EXPORTS: execCommand, parseInstruction
+
+;// CONCATENATED MODULE: external "child_process"
+const external_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("child_process");
+;// CONCATENATED MODULE: ./src/lib.ts
+
+const execCommand = ({ cmd, args }) => {
     console.info(`Executing command: "${cmd}"`);
     console.info(`With arguments: ${args}`);
     return new Promise((resolve) => {
-        const child = (0,child_process__WEBPACK_IMPORTED_MODULE_1__.spawn)(cmd, args);
+        const child = (0,external_child_process_namespaceObject.spawn)(cmd, args);
         child.stdout.setEncoding('utf8');
         child.stdout.on('data', (chunk) => {
-            console.log(chunk);
+            console.info(chunk);
         });
         child.stderr.setEncoding('utf8');
         child.stderr.on('data', (chunk) => {
@@ -24638,7 +24666,7 @@ const execute = (cmd, ...args) => {
         });
     });
 };
-const getCommand = (key, instruction) => {
+const parseInstruction = (key, instruction) => {
     const p = RegExp(`(?:\n*key=${key},cmd=)(?<cmd>(?<=cmd=).*)(?:\n*)`, 'm');
     const m = instruction.match(p);
     if (!m)
@@ -24646,29 +24674,22 @@ const getCommand = (key, instruction) => {
             message: `Command not found for key: ${key}`,
             key,
         };
-    return m.groups.cmd.split(' ').map((s) => s.trim());
+    const [cmd, ...args] = m.groups.cmd.split(' ').map((s) => s.trim());
+    return { cmd, args };
 };
-try {
-    const key = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("key");
-    const instruction = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("instruction");
+const tryExec = (key, instruction) => {
     let c;
     try {
-        c = getCommand(key, instruction);
+        c = parseInstruction(key, instruction);
     }
     catch (e) {
         console.info(e.message);
         console.info(`Attempting default command`);
-        c = getCommand('default', instruction);
+        c = parseInstruction('default', instruction);
     }
-    const [cmd, ...args] = c;
-    await execute(cmd, ...args);
-}
-catch (e) {
-    (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(e.message);
-}
+    return execCommand(c);
+};
 
-__webpack_async_result__();
-} catch(e) { __webpack_async_result__(e); } }, 1);
 
 /***/ }),
 
@@ -24690,13 +24711,6 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("async_hooks"
 /***/ ((module) => {
 
 module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("buffer");
-
-/***/ }),
-
-/***/ 2081:
-/***/ ((module) => {
-
-module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("child_process");
 
 /***/ }),
 
