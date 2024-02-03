@@ -54823,9 +54823,9 @@ __nccwpck_require__.r(__webpack_exports__);
 const octokit = new _octokit_action__WEBPACK_IMPORTED_MODULE_1__.Octokit();
 try {
     const instruction = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("instruction");
-    const cases = instruction.split("\\r?\\n");
+    const cases = instruction.split("\n");
     cases.forEach((c, i) => {
-        console.log(`CASE: ${i}: ${c}`);
+        console.log(`CASE: ${i}: ${c.trim()}`);
     });
 }
 catch (e) {
