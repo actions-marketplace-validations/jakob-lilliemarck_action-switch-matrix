@@ -2,13 +2,19 @@ import { getInput, setFailed } from '@actions/core';
 import { spawn } from 'child_process'
 
 const execute = (cmd) => {
-    const child = spawn(cmd)
-    child.stdout.setEncoding('utf8')
-    child.stdout.on('data', (chunk) => {
-        console.log(chunk)
-    })
-    child.on('close', (code) => {
-        if (code !== 0) throw new Error(`Command returned non-zero exit code: ${code}`)
+    return new Promise((resolve) => {
+        const child = spawn(cmd)
+        child.stdout.setEncoding('utf8')
+        child.stdout.on('data', (chunk) => {
+            console.log(chunk)
+        })
+        child.on('close', (code) => {
+            if (code !== 0) {
+                throw new Error(`Command returned non-zero exit code: ${code}`)
+            } else {
+                resolve(0)
+            }
+        })
     })
 }
 
@@ -25,7 +31,7 @@ try {
 
     if (!m) throw new Error(`Could not interpret cmd for key: ${key}`)
 
-    execute("echo foo")
+    await execute("echo foo")
 
     //instruction
     //.split("\n")
