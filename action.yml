@@ -1,0 +1,11 @@
+name: "Build matrix"
+description: "Conditionally run commands in a GitHub workflow job matrix"
+author: Jakob Lilliemarck
+
+inputs:
+  instruction:
+    description: "key=[matrix.value],cmd=[command]"
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
