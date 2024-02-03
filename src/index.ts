@@ -1,27 +1,48 @@
 import { getInput, setFailed } from '@actions/core';
-import { Octokit } from '@octokit/action';
 import { spawn } from 'child_process'
 
-const octokit = new Octokit()
+const execute = (cmd) => {
+    const child = spawn(cmd)
+    child.stdout.setEncoding('utf8')
+    child.stdout.on('data', (chunk) => {
+        console.log(chunk)
+    })
+    child.on('close', (code) => {
+        if (code !== 0) throw new Error(`Command returned non-zero exit code: ${code}`)
+    })
+}
+
+const pattern = /^(?:key=)(?<key>(?<=key=)[^,]*)(?:,\s*cmd=)(?<cmd>(?<=cmd=).*)$/
+
+const fmtRe = (key: string) => RegExp(`(?:\n*key=${key},cmd=)(?<cmd>(?<=cmd=).*)(?:\n*)`, 'm')
 
 try {
+    const key = getInput("key");
+
     const instruction = getInput("instruction");
-    const cases = instruction.split("\n")
-    cases.forEach((c, i) => {
-        console.log(`CASE: ${i}: ${c.trim()}`)
-    })
+
+    const m = instruction.match(fmtRe(key))
+
+    if (!m) throw new Error(`Could not interpret cmd for key: ${key}`)
+
+    execute(m.groups.cmd)
+
+    //instruction
+    //.split("\n")
+    //.filter((s) => s)
+    //.reduce((a, s, i) => {
+    //        const m = s.match(pattern)
+    //        if (!m) throw new Error(`Line ${i} could not be interpreted.`)
+    //        return m ? [...a, m.groups] : a
+    //
+    //, [] as Array<{ key: string, cmd: string }>)
+    //.forEach(({ key, cmd }) => {
+    //        if (_key === key) {
+    //            execute(cmd)
+    //
+    //   }
+    //
+    //})
 } catch (e) {
     setFailed(e.message);
 }
-
-//const red = "\x1b[31m"
-//const child = spawn('ls',)
-//child.stdout.setEncoding('utf8')
-//child.stdout.on('data', (chunk) => {
-//    console.log(chunk)
-//});
-//child.on('close', (code) => {
-//    if (code !== 0) {
-//        console.log(`child process exited with code ${code}`);
-//    }
-//});
