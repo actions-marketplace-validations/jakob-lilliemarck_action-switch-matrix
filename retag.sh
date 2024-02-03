@@ -9,7 +9,7 @@ fi
 
 # 1 TAG
 # 2 MESSAGE
-ncc build src/index.ts --license licenses.txt
+ncc build src/index.ts
 git add .
 git push --delete origin $1
 git tag -d $1
