@@ -24645,15 +24645,16 @@ const getCommand = (key, instruction) => {
 try {
     const key = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("key");
     const instruction = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("instruction");
-    let s;
+    let c;
     try {
-        s = getCommand(key, instruction);
+        c = getCommand(key, instruction);
     }
     catch (e) {
         console.info(e.message);
-        s = getCommand('default', instruction);
+        c = getCommand('default', instruction);
     }
-    const [cmd, ...args] = s;
+    console.info(`Running command: ${c}`);
+    const [cmd, ...args] = c;
     await execute(cmd, ...args);
 }
 catch (e) {

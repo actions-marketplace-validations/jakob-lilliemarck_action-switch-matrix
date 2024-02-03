@@ -34,15 +34,16 @@ try {
     const instruction = getInput("instruction");
 
 
-    let s: Array<string>;
+    let c: Array<string>;
     try {
-        s = getCommand(key, instruction)
+        c = getCommand(key, instruction)
     } catch (e) {
         console.info(e.message)
-        s = getCommand('default', instruction)
+        c = getCommand('default', instruction)
     }
 
-    const [cmd, ...args] = s
+    console.info(`Running command: ${c}`)
+    const [cmd, ...args] = c
     await execute(cmd, ...args)
 } catch (e) {
     setFailed(e.message);
