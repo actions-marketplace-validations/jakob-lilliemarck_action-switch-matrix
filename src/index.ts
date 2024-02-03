@@ -6,10 +6,17 @@ const execute = (cmd: string, ...args: Array<string>) => {
     console.info(`With arguments: ${args}`)
     return new Promise((resolve) => {
         const child = spawn(cmd, args)
+
         child.stdout.setEncoding('utf8')
         child.stdout.on('data', (chunk) => {
             console.log(chunk)
         })
+
+        child.stderr.setEncoding('utf8')
+        child.stderr.on('data', (chunk) => {
+            console.error(chunk)
+        })
+
         child.on('close', (code) => {
             if (code !== 0) {
                 throw new Error(`Command returned non-zero exit code: ${code}`)
@@ -31,9 +38,16 @@ const getCommand = (key: string, instruction: string) => {
     return m.groups.cmd.split(' ').map((s) => s.trim())
 }
 
+const instruction = `
+key=sbox-public-api,cmd=docker build -t sbox-calculate -f ./docker/Dockerfile.sbox-calculate ./bin/
+key=sbox-calculate,cmd=docker build -t $sbox-calculate -f ./docker/Dockerfile.sbox-calculate ./bin/
+key=default,cmd=docker build -t sbox-inlet-ping -f ./docker/Dockerfile.default ./bin/ --build-arg "FILE=sbox-inlet-ping"
+`
+const key = "sbox-inlet-ping"
+
 try {
-    const key = getInput("key");
-    const instruction = getInput("instruction");
+    // const key = getInput("key");
+    // const instruction = getInput("instruction");
 
 
     let c: Array<string>;
@@ -45,7 +59,6 @@ try {
         c = getCommand('default', instruction)
     }
 
-    console.info(`Running command: ${c}`)
     const [cmd, ...args] = c
     await execute(cmd, ...args)
 } catch (e) {
