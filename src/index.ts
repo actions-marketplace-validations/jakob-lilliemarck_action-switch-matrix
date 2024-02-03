@@ -18,34 +18,32 @@ const execute = (cmd: string, ...args: Array<string>) => {
     })
 }
 
-// const pattern = /^(?:key=)(?<key>(?<=key=)[^,]*)(?:,\s*cmd=)(?<cmd>(?<=cmd=).*)$/
+const getCommand = (key: string, instruction: string) => {
+    const p = RegExp(`(?:\n*key=${key},cmd=)(?<cmd>(?<=cmd=).*)(?:\n*)`, 'm')
+    const m = instruction.match(p)
 
-const fmtRe = (key: string) => RegExp(`(?:\n*key=${key},cmd=)(?<cmd>(?<=cmd=).*)(?:\n*)`, 'm')
+    if (!m) throw {
+        message: `Command not found for key: ${key}`,
+        key,
+    }
+
+    return m.groups.cmd.split(' ').map((s) => s.trim())
+}
 
 try {
     const key = getInput("key");
     const instruction = getInput("instruction");
-    const m = instruction.match(fmtRe(key))
-    if (!m) throw new Error(`Could not interpret cmd for key: ${key}`)
-    const [cmd, ...args] = m.groups.cmd.split(' ').map((s) => s.trim())
-    await execute(cmd, ...args)
 
-    //instruction
-    //.split("\n")
-    //.filter((s) => s)
-    //.reduce((a, s, i) => {
-    //        const m = s.match(pattern)
-    //        if (!m) throw new Error(`Line ${i} could not be interpreted.`)
-    //        return m ? [...a, m.groups] : a
-    //
-    //, [] as Array<{ key: string, cmd: string }>)
-    //.forEach(({ key, cmd }) => {
-    //        if (_key === key) {
-    //            execute(cmd)
-    //
-    //   }
-    //
-    //})
+    let s: Array<string>;
+    try {
+        s = getCommand(key, instruction)
+    } catch (e) {
+        console.info(e.message)
+        s = getCommand('default', instruction)
+    }
+
+    const [cmd, args] = s
+    await execute(cmd, ...args)
 } catch (e) {
     setFailed(e.message);
 }

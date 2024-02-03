@@ -24632,32 +24632,29 @@ const execute = (cmd, ...args) => {
         });
     });
 };
-// const pattern = /^(?:key=)(?<key>(?<=key=)[^,]*)(?:,\s*cmd=)(?<cmd>(?<=cmd=).*)$/
-const fmtRe = (key) => RegExp(`(?:\n*key=${key},cmd=)(?<cmd>(?<=cmd=).*)(?:\n*)`, 'm');
+const getCommand = (key, instruction) => {
+    const p = RegExp(`(?:\n*key=${key},cmd=)(?<cmd>(?<=cmd=).*)(?:\n*)`, 'm');
+    const m = instruction.match(p);
+    if (!m)
+        throw {
+            message: `Command not found for key: ${key}`,
+            key,
+        };
+    return m.groups.cmd.split(' ').map((s) => s.trim());
+};
 try {
     const key = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("key");
     const instruction = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("instruction");
-    const m = instruction.match(fmtRe(key));
-    if (!m)
-        throw new Error(`Could not interpret cmd for key: ${key}`);
-    const [cmd, ...args] = m.groups.cmd.split(' ').map((s) => s.trim());
+    let s;
+    try {
+        s = getCommand(key, instruction);
+    }
+    catch (e) {
+        console.info(e.message);
+        s = getCommand('default', instruction);
+    }
+    const [cmd, args] = s;
     await execute(cmd, ...args);
-    //instruction
-    //.split("\n")
-    //.filter((s) => s)
-    //.reduce((a, s, i) => {
-    //        const m = s.match(pattern)
-    //        if (!m) throw new Error(`Line ${i} could not be interpreted.`)
-    //        return m ? [...a, m.groups] : a
-    //
-    //, [] as Array<{ key: string, cmd: string }>)
-    //.forEach(({ key, cmd }) => {
-    //        if (_key === key) {
-    //            execute(cmd)
-    //
-    //   }
-    //
-    //})
 }
 catch (e) {
     (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(e.message);
