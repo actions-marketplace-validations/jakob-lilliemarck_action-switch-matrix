@@ -24648,15 +24648,15 @@ const getCommand = (key, instruction) => {
         };
     return m.groups.cmd.split(' ').map((s) => s.trim());
 };
-const instruction = `
-key=sbox-public-api,cmd=docker build -t sbox-calculate -f ./docker/Dockerfile.sbox-calculate ./bin/
-key=sbox-calculate,cmd=docker build -t $sbox-calculate -f ./docker/Dockerfile.sbox-calculate ./bin/
-key=default,cmd=docker build -t sbox-inlet-ping -f ./docker/Dockerfile.default ./bin/ --build-arg "FILE=sbox-inlet-ping"
-`;
-const key = "sbox-inlet-ping";
+// const instruction = `
+// key=sbox-public-api,cmd=docker build -t sbox-calculate -f ./docker/Dockerfile.sbox-calculate ./bin/
+// key=sbox-calculate,cmd=docker build -t $sbox-calculate -f ./docker/Dockerfile.sbox-calculate ./bin/
+// key=default,cmd=docker build -t sbox-inlet-ping -f ./docker/Dockerfile.default ./bin/ --build-arg "FILE=sbox-inlet-ping"
+// `
+// const key = "sbox-inlet-ping"
 try {
-    // const key = getInput("key");
-    // const instruction = getInput("instruction");
+    const key = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("key");
+    const instruction = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("instruction");
     let c;
     try {
         c = getCommand(key, instruction);
